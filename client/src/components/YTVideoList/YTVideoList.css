@@ -1,22 +1,42 @@
-ul {
+.yt-list {
   list-style-type: none;
+  display: block;
+  padding: 0;
+  width: 80%;
+  margin: 0 auto;
 }
 
-li {
+.yt-list-item {
   display: flex;
-  padding: 10px 0px;
+  padding: 15px 0px;
   max-width: 600px;
+  border-bottom: 1px solid #333;
 }
 
-li > img {
+.yt-list-item > img {
   width: 100%;
   max-width: 200px;
   padding-right: 15px; 
   height: auto;
 }
 
-span {
+
+.yt-span {
   display: block;
+}
+
+.video-form {
+  width: 100%;
+}
+.video-search {
+  display: flex;
+  background-color: transparent;
+  padding: 10px;
+  width: 80%;
+  margin: 20px auto;
+  font-size: 18px;
+  color: white;
+  border: 1px solid #555;
 }
 
 .video-title {

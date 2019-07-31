@@ -58,7 +58,10 @@ ipcMain.on('downloadVideo', (event, args) => {
     res.on('data', function(data) {
       dataRead += data.length;
       var percent = dataRead / totalSize;
-      win.webContents.send('updateDownloadProgress', (percent * 100).toFixed(2));
+      win.webContents.send('updateDownloadProgress', {
+        progress: (percent * 100).toFixed(2), 
+        videoId: args.videoId
+      });
     });
     res.on('end', function() {
       console.log()
