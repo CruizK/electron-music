@@ -4,7 +4,6 @@ const path = require('path');
 const axios = require('axios');
 const querystring = require('querystring');
 const yt = require('ytdl-core');
-const ffmpeg = require('fluent-ffmpeg');
 const fs = require('fs');
 
 let win;
