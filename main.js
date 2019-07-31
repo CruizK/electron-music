@@ -63,7 +63,7 @@ ipcMain.on('downloadVideo', (event, args) => {
     res.on('end', function() {
       console.log()
     });
-  }).pipe(fs.createWriteStream(`${args.title}.mp3`));
+  }).pipe(fs.createWriteStream(`./music/${args.title}.mp3`));
 })
 
 

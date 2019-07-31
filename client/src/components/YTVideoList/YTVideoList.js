@@ -6,10 +6,9 @@ const electron = window.require('electron');
 const YTVideoList = () => {
   const [vidData, setVidData] = useState(null);
   const [progress, setProgress] = useState(0);
+  const [query, setQuery] = useState('')
 
   useEffect(() => {
-    electron.ipcRenderer.send('getVideos', 'NF No Name');
-
     electron.ipcRenderer.on('gotVideos', (event, args) => {
       console.log(args);
       setVidData(args);
@@ -21,8 +20,13 @@ const YTVideoList = () => {
   }, [])
 
 
+  const handleSubmit = e => {
+    e.preventDefault();
+    electron.ipcRenderer.send('getVideos', query);
+  }
+
   const displayVideos = () => {
-    if(!vidData) return <h1>Loading...</h1>;
+    if(!vidData) return <h1></h1>;
 
     return (
       <ul>
@@ -32,6 +36,9 @@ const YTVideoList = () => {
   }
   return (
     <div>
+      <form onSubmit={handleSubmit}>
+        <input type="text" placeholder="Song Name..." onChange={e => setQuery(e.target.value)} value={query} />
+      </form>
       {displayVideos()}
     </div>
   )

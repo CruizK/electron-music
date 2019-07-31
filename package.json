@@ -12,8 +12,6 @@
     "axios": "^0.19.0",
     "dotenv": "^8.0.0",
     "electron": "^6.0.0",
-    "fluent-ffmpeg": "^2.1.2",
-    "react-truncate": "^2.4.0",
     "ytdl-core": "^0.29.4"
   }
 }
