@@ -1,5 +1,8 @@
 import React, { useState } from 'react'
+import Sound from 'react-sound'
 const electron = window.require('electron');
+
+
 
 const YTListItem = ({item, progress}) => {
   
@@ -11,7 +14,9 @@ const YTListItem = ({item, progress}) => {
   }
 
   const handleDownload = () => {
-    setDownloading(true);
+    setTimeout(() => {
+      setDownloading(true)
+    }, 2000)
     electron.ipcRenderer.send('downloadVideo', {url:"https://www.youtube.com/watch?v=" + item.id.videoId, title:item.snippet.title});
   }
   
@@ -23,7 +28,7 @@ const YTListItem = ({item, progress}) => {
         <span className="video-channel">{item.snippet.channelTitle}</span>
         <span className="video-description">{truncator(item.snippet.description, 80)}</span>
         {!downloading ? <button className="video-btn" onClick={() => handleDownload()}>Download</button> :
-          <span>Downloading: {progress}%</span>
+          <span>{`${progress}%`}</span>
         }
       </div>
     </React.Fragment>
