@@ -1,12 +1,14 @@
 require('dotenv').config();
-const { app, BrowserWindow, ipcMain, ipcRenderer } = require('electron');
+const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
-const axios = require('axios');
-const querystring = require('querystring');
-const yt = require('ytdl-core');
+const ytUtil = require('./youtubeUtil')
+const extractAudio = require('./audioExtractor');
+const util = require('./fileUtil')
 const fs = require('fs');
 
 let win;
+
+let musicMap = util.checkFileSync('./music/music-map.json', {});
 
 function createWindow() {
   win = new BrowserWindow({
@@ -30,6 +32,8 @@ function createWindow() {
 
   // Emitted when the window is closed.
   win.on('closed', () => {
+    fs.writeFile('./music/music-map.json', JSON.stringify(musicMap, null, "\t"), (err) => {
+    });
     // Dereference the window object, usually you would store windows
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
@@ -37,36 +41,45 @@ function createWindow() {
   })
 }
 
-ipcMain.on('getVideos', (event, args) => {
-  const url = 'https://www.googleapis.com/youtube/v3/search?'
-  axios.get(url + querystring.stringify({part: 'snippet', q: args, key:process.env.YT_KEY, maxResults: 10, type:"video"}))
-    .then(res => {
-      event.reply('gotVideos', res.data);
-    })
-    .catch(e => {
-      console.log(e);
-    })
+ipcMain.on('getVideos', async (event, args) => {
+  const videos = await ytUtil.searchVideos(args);
+  event.reply('gotVideos', videos);
 })
 
-ipcMain.on('downloadVideo', (event, args) => {
-  console.log("Downloading video...");
+ipcMain.on('getMusicMap', (event, args) => {
+  event.returnValue = musicMap;
+})
 
-  yt(args.url, {quality: 'highestaudio', filter: 'audioonly'}).on('response', function(res) {
-    var totalSize = res.headers['content-length'];
-    var dataRead = 0;
-    console.log(totalSize);
-    res.on('data', function(data) {
-      dataRead += data.length;
-      var percent = dataRead / totalSize;
-      win.webContents.send('updateDownloadProgress', {
-        progress: (percent * 100).toFixed(2), 
-        videoId: args.videoId
-      });
-    });
-    res.on('end', function() {
-      console.log()
-    });
-  }).pipe(fs.createWriteStream(`./music/${args.title}.mp3`));
+ipcMain.on('downloadVideo', async (event, args) => {
+
+  let vidId = args.id.videoId;
+  if(musicMap[vidId]) {
+    win.webContents.send('updateDownloadProgress', {
+      progress: "Already Downloaded",
+      videoId: vidId
+    })
+    return;
+  }
+
+  const duration = await ytUtil.videoDuration(vidId)
+
+  musicMap[vidId] = {
+    title: args.snippet.title,
+    description: args.snippet.description,
+    thumbnails: args.snippet.thumbnails,
+    channel: args.snippet.channelTitle,
+    duration: duration,
+    path: path.join(__dirname, "/music/" + vidId + ".mp3"),
+    videoId: vidId,
+  }
+
+
+  extractAudio(vidId, `./music/${vidId}.mp3`, progress => {
+    win.webContents.send('updateDownloadProgress', {
+      progress,
+      videoId: vidId
+    })
+  });
 })
 
 
