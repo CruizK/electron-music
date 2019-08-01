@@ -13,12 +13,10 @@ const YTListItem = ({item, progress}) => {
     return str.substring(0, i) + "   ...";
   }
 
+
+
   const handleDownload = () => {
-    electron.ipcRenderer.send('downloadVideo', {
-      url: "https://www.youtube.com/watch?v=" + item.id.videoId, 
-      title: item.snippet.title,
-      videoId: item.id.videoId 
-    });
+    electron.ipcRenderer.send('downloadVideo', item);
     setDownloading(true);
   }
   
@@ -30,7 +28,7 @@ const YTListItem = ({item, progress}) => {
         <span className="video-channel yt-span">{item.snippet.channelTitle}</span>
         <span className="video-description yt-span">{truncator(item.snippet.description, 80)}</span>
         {!downloading ? <button className="video-btn" onClick={() => handleDownload()}>Download</button> :
-          <span>{`${progress[item.id.videoId] || 0}%`}</span>
+          <span>{progress[item.id.videoId] || '0%'}</span>
         }
       </div>
     </React.Fragment>

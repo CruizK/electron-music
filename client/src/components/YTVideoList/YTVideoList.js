@@ -7,10 +7,17 @@ const YTVideoList = () => {
   const [vidData, setVidData] = useState(null);
   const [query, setQuery] = useState('')
   const [progress, setProgress] = useState({})
+
+
+
   useEffect(() => {
     electron.ipcRenderer.removeAllListeners();
     electron.ipcRenderer.on('gotVideos', (event, args) => {
       console.log(args);
+      for(let i = 0; i < args.items.length; i++) {
+        let item = args.items[i]
+        item.snippet.title = replaceEntities(item.snippet.title);
+      }
       setVidData(args);
     })
   
@@ -20,6 +27,9 @@ const YTVideoList = () => {
     })
   })
 
+  const replaceEntities = (str) => {
+    return str.replace(/&amp;/g, '&').replace(/&lt/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"');
+  }
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -40,7 +50,7 @@ const YTVideoList = () => {
   return (
     <div>
       <form onSubmit={handleSubmit} className="video-form">
-        <input type="text" placeholder="Song Name..." className="video-search"
+        <input type="text" placeholder="Song Name..." className="video-search" autoFocus
         onChange={e => setQuery(e.target.value)} value={query} />
       </form>
       {displayVideos()}
