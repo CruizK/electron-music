@@ -3,15 +3,23 @@ import React from 'react'
 const SongListItem = ({item}) => {
   
 
+  const formatDuration = () => {
+    let minutes = Math.floor(item.duration/60);
+    let seconds = item.duration % 60;
+    if(seconds < 10) {
+      seconds = '0'+seconds;
+    }
+
+    return `${minutes}:${seconds}`
+  }
 
   return (
   <div className="music-item">
-    <span className="video-title yt-span">{item.snippet.title}</span>
-    <span className="video-channel yt-span">{item.snippet.channelTitle}</span>
-    <span className="video-description yt-span">{truncator(item.snippet.description, 80)}</span>
-    {!downloading ? <button className="video-btn" onClick={() => handleDownload()}>Download</button> :
-      <span>{progress[item.id.videoId] || '0%'}</span>
-    }
+    <span className="music-title yt-span">{item.title}</span>
+    <span className="music-channel yt-span">{item.channel}</span>
+    <span className="music-duration yt-span">{formatDuration()}</span>
   </div>
   )
 }
+
+export default SongListItem;

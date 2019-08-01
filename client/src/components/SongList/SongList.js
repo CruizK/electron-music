@@ -1,15 +1,19 @@
 import React from 'react'
-import MusicListItem from './SongListItem'
+import SongListItem from './SongListItem'
+import './SongList.css'
 const electron = window.require('electron');
 
-const SongList = ({onSelection}) => {
+const SongList = ({setSong}) => {
   const musicMap = electron.ipcRenderer.sendSync("getMusicMap");
 
-  
+  const playSong = item => {
+    setSong("file://" + item.path)
+  }
+
   const displayList = () => {
     return <ul>
     {Object.values(musicMap).map((x, index) => 
-      <li onClick={() => onSelection(x)} key={index}><MusicListItem item={x} /></li>
+      <li className="music-list" onClick={() => playSong(x)} key={index}><SongListItem item={x} /></li>
     )}
     </ul>
   }
