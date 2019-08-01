@@ -1,0 +1,42 @@
+
+.player {
+  position: fixed;
+  color: white;
+  bottom: 0px;
+  width: 100%;
+  height: 75px;
+  background-color: #111;
+  border-top: 1px solid #333;
+  z-index: 2;
+}
+
+.player-controls {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  justify-content: space-around;
+}
+
+.player-controls-navigation {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+}
+
+.player-controls-progress {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.player-controls-play {
+  cursor: pointer;
+  flex: 0 0 auto;
+}
+
+
+
+.player-controls-song {
+  flex: 0 0 auto;
+}

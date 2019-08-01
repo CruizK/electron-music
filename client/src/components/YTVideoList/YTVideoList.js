@@ -22,7 +22,6 @@ const YTVideoList = () => {
     })
   
     electron.ipcRenderer.on('updateDownloadProgress', (event, args) => {
-      console.log(progress);
       setProgress({...progress, [args.videoId]: args.progress})
     })
   })

@@ -1,13 +1,15 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import SongListItem from './SongListItem'
+import {PlayerContext} from '../../PlayerProvider'
 import './SongList.css'
 const electron = window.require('electron');
 
-const SongList = ({setSong}) => {
+const SongList = () => {
+  const playerContext = useContext(PlayerContext)
   const musicMap = electron.ipcRenderer.sendSync("getMusicMap");
 
   const playSong = item => {
-    setSong("file://" + item.path)
+    playerContext.setSong(item);
   }
 
   const displayList = () => {

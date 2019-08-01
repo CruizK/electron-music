@@ -1,31 +1,12 @@
-import React, { useState } from 'react'
-import Player from 'react-sound'
+import React from 'react'
 
-const MusicPlayer = ({url}) => {
-  const [playStatus, setPlayStatus] = useState(Player.status.PLAYING);
-  
-  const handleSongLoading = () => {
-
-  }
-
-  const handleSongPlaying = () => {
-    
-  }
-
-  const handleSongFinish = () => {
-
-  }
+const MusicPlayer = () => {
 
   return (
-    <Player
-      url={url}
-      playStatus={playStatus}
-      onLoading={handleSongLoading}
-      onPlaying={handleSongPlaying}
-      onFinishedPlaying={handleSongFinish}
-    />
+    <div>
+      <h1>HEllo</h1>
+    </div>
   )
 }
 
-
-export default MusicPlayer;
+export default MusicPlayer
