@@ -1,0 +1,36 @@
+
+.music-list {
+    display: flex;
+    list-style-type: none;
+}
+
+.music-item {
+    display: flex;
+    width: 90%;
+    margin: 0px auto;
+    flex-direction: row;
+    border-top: 1px solid #222;
+    padding: 20px;
+}
+
+.music-item:hover {
+    cursor: pointer;
+    background-color: #212121;
+}
+
+.music-play {
+    flex: 0 0 auto;
+    padding-right: 15px;
+}
+
+.music-title {
+    flex: 2;
+}
+
+.music-channel {
+    flex: 2;
+}
+
+.music-duration {
+    flex: 0 0 auto;
+}

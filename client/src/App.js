@@ -15,11 +15,11 @@ function App() {
     <Router>
       <Navigation />
       <div className="container">
-        <Route exact path="/" component={YTVideoList} />
         <Route path="/search" component={YTVideoList} />
-        <Route path="/list" render={props => {
+        <Route exact path="/" render={props => {
           return <SongList {...props} setSong={setSongURL} />
         }}/>
+        <Route exact path="/player" component={YTVideoList} />
         <MusicPlayer url={songURL} />
       </div>
     </Router>
