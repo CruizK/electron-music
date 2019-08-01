@@ -69,7 +69,7 @@ ipcMain.on('downloadVideo', async (event, args) => {
     thumbnails: args.snippet.thumbnails,
     channel: args.snippet.channelTitle,
     duration: duration,
-    path: path.join(__dirname, "/music/" + vidId + ".mp3"),
+    path: 'file://'+path.join(__dirname, "/music/" + vidId + ".mp3"),
     videoId: vidId,
   }
 
