@@ -1,12 +1,7 @@
-import React, {useState, useEffect, useRef} from 'react'
+import React from 'react'
 import './ScrollingText.css'
 
-const ScrollingText = ({className, text, maxWidth}) => {
-
-  useEffect(() => {
-
-  })
-
+const ScrollingText = ({className, text}) => {
   
   return (
     <div className='scrolling-text-container'>
