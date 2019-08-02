@@ -1,20 +1,21 @@
 .scrolling-text-container {
-  overflow: hidden;
-  width: 150px;
+  width: 100px;
+  overflow:hidden;
 }
 
 
 .scrolling-text {
-  position: relative;
+  display: inline-block;
   white-space: nowrap;
-  animation: scrollingText 20s linear infinite;
+  transform: translateX(100%);
+  animation: scrollingText 8s linear infinite;
 }
 
 @keyframes scrollingText {
-  0% {
-    right: 0%;
+  from {
+    transform: translateX(100px)
   }
-  100% {
-    right: 200%;
+  to {
+    transform: translateX(-100%)
   }
 }
