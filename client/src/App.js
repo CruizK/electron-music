@@ -6,15 +6,15 @@ import Navigation from './components/Navigation/Navigation'
 import SongList from './components/SongList/SongList'
 import MusicPlayer from './components/MusicPlayer/MusicPlayer'
 import Player from './components/Player/Player'
-import PlayerProvider from './PlayerProvider'
+import PlayerProvider from './providers/PlayerProvider'
 import "./App.css"
-
+import Provider from './providers/Provider'
 
 function App() {
 
   return (
     <Router>
-      <PlayerProvider>
+      <Provider providers={[PlayerProvider]}>
         <Navigation />
         <div className="container">
           <Route exact path="/" component={SongList}/>
@@ -22,7 +22,7 @@ function App() {
           <Route exact path="/player" component={MusicPlayer} />
         </div>
         <Player />
-      </PlayerProvider>
+      </Provider>
     </Router>
   );
 }

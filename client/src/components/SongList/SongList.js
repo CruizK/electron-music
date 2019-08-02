@@ -1,6 +1,6 @@
 import React, {useContext} from 'react'
 import SongListItem from './SongListItem'
-import {PlayerContext} from '../../PlayerProvider'
+import {PlayerContext} from '../../providers/PlayerProvider'
 import './SongList.css'
 const electron = window.require('electron');
 
@@ -10,6 +10,7 @@ const SongList = () => {
 
   const playSong = item => {
     playerContext.setSong(item);
+    if(!playerContext.isPlaying) playerContext.togglePlaying();
   }
 
   const displayList = () => {

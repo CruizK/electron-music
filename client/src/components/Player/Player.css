@@ -13,13 +13,13 @@
 .player-controls {
   display: flex;
   flex-direction: column;
-  padding: 10px;
 }
 
 .player-controls-navigation {
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: center;
   width: 100%;
 }
 
@@ -29,10 +29,23 @@
   width: 100%;
 }
 
-.player-controls-middle {
-  display: flex;
+.player-controls-left {
   width: 100%;
+  flex: 1;
+}
+
+.player-controls-middle {
+  flex: 1;
+  display: flex;
   justify-content: center;
+}
+
+.player-controls-middle > * {
+  flex: 1;
+}
+
+.player-controls-right {
+  flex: 1;
 }
 
 .player-controls-play {

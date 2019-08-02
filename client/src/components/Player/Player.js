@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react'
 import Sound from 'react-sound'
 import PlayerControls from './PlayerControls'
-import {PlayerContext} from '../../PlayerProvider'
+import {PlayerContext} from '../../providers/PlayerProvider'
 import {formatSongDuration} from '../../utils/timeUtils'
 import './Player.css'
 
