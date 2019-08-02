@@ -3,8 +3,10 @@ import YTListItem from './YTListItem'
 import './YTVideoList.css'
 const electron = window.require('electron');
 
+
+let vidDataCache;
 const YTVideoList = () => {
-  const [vidData, setVidData] = useState(null);
+  const [vidData, setVidData] = useState(vidDataCache);
   const [query, setQuery] = useState('')
   const [progress, setProgress] = useState({})
 
@@ -18,7 +20,8 @@ const YTVideoList = () => {
         let item = args.items[i]
         item.snippet.title = replaceEntities(item.snippet.title);
       }
-      setVidData(args);
+      vidDataCache = args;
+      setVidData(vidDataCache);
     })
   
     electron.ipcRenderer.on('updateDownloadProgress', (event, args) => {
