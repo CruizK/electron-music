@@ -14,7 +14,7 @@ const Player = () => {
   }
 
   const handleSongPlaying = data => {
-    let duration = Math.round(data.position/1000);
+    let duration = Math.ceil(data.position/1000);
     setProgress(formatSongDuration(duration));
   }
 
