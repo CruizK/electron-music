@@ -1,0 +1,49 @@
+
+
+.seeker {
+  position: relative;
+  cursor: pointer;
+}
+
+.seeker-background {
+  position: absolute;
+  border-radius: 10px;
+  top: -5px;
+  height: 10px;
+  background-color: #666;
+  width: 100%;
+}
+
+.seeker-foreground {
+  pointer-events: none;
+  position: absolute;
+  overflow: hidden;
+  border-radius: 10px;
+  top: -5px;
+  height: 10px;
+  background-color: #ccc;
+  width: 0%;
+}
+
+.seeker-tooltip {
+  top: -35px;
+  display: none;
+}
+
+@keyframes seeker {
+  from {
+    width: 0%
+  }
+  to {
+    width: 100%
+  }
+}
+
+@keyframes seeker2 {
+  from {
+    width: 0%
+  }
+  to {
+    width: 100%
+  }
+}

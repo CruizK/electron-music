@@ -2,21 +2,18 @@ import React, { useState, useContext } from 'react'
 import Sound from 'react-sound'
 import PlayerControls from './PlayerControls'
 import {PlayerContext} from '../../providers/PlayerProvider'
-import {formatSongDuration} from '../../utils/timeUtils'
 import './Player.css'
 
 const Player = () => {
   const playerContext = useContext(PlayerContext);
-  const [progress, setProgress] = useState('0:00');
-
+  const [progress, setProgress] = useState(0);
   const handleSongLoading = () => {
 
   }
 
   const handleSongPlaying = data => {
-    let duration = Math.ceil(data.position/1000);
-    setProgress(formatSongDuration(duration));
-  }
+    setProgress(data.position/1000);
+  } 
 
   const handleSongFinish = () => {
 
@@ -26,25 +23,24 @@ const Player = () => {
     return (
       <div className="player">
         <PlayerControls 
-          isPlaying={playerContext.isPlaying}
-          togglePlay={playerContext.togglePlaying}
-          song={playerContext.song}
           progress={progress}
+          setProgress={setProgress}
         />
       </div>
     )
   }
 
-  return playerContext.song ? (<div>
+  return <div>
       <Sound
         url={playerContext.song ? playerContext.song.path : ''}
         playStatus={playerContext.isPlaying ? Sound.status.PLAYING : Sound.status.PAUSED}
+        position={progress * 1000}
         onLoading={handleSongLoading}
         onPlaying={handleSongPlaying}
         onFinishedPlaying={handleSongFinish}
       />
-      {displayPlayer()}
-  </div>) : null
+      {playerContext.song ? displayPlayer() : null}
+  </div>
 }
 
 
