@@ -18,7 +18,7 @@ const Icon = ({Component, color, hoverColor, clickedColor, clickedHoverColor, on
       onMouseLeave={() => setHovered(false)}
       onClick={() => {
         setClicked(!isClicked);
-        onClick();
+        if(onClick) onClick();
       }}
       color={getColor()}
       {...props}
