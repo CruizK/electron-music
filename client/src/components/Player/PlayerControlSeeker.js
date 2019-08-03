@@ -70,7 +70,7 @@ const PlayerControlSeeker = ({total, className, setProgress}) => {
       </span> : null}
       
       <span className="seeker-background"></span>
-      <span className="seeker-foreground" style={{animation: `${animation} ${total}s linear ${delay}s`, animationPlayState: playerContext.isPlaying ? 'running' : 'paused' }}></span>
+      <span className="seeker-foreground" style={{animation: `${animation} ${total}s linear ${delay}s`, animationPlayState: playerContext.isPlaying ? 'running' : 'paused'}}></span>
     </span>
   )
 }
