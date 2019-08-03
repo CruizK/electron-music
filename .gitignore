@@ -6,7 +6,7 @@ yarn-debug.log*
 yarn-error.log*
 
 #music
-*.mp3
+music/
 
 # Runtime data
 pids
