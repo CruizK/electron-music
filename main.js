@@ -1,13 +1,17 @@
 require('dotenv').config();
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
+const fs = require('fs');
+const mkdirp = require('mkdirp');
+
 const ytUtil = require('./youtubeUtil')
 const extractAudio = require('./audioExtractor');
 const util = require('./fileUtil')
-const fs = require('fs');
+
 
 let win;
 
+mkdirp.sync(path.join(__dirname, "/music"));
 let musicMap = util.checkFileSync('./music/music-map.json', {});
 
 function createWindow() {
