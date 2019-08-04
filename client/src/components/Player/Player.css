@@ -15,15 +15,6 @@
   flex-direction: column;
 }
 
-.player-controls-navigation {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-around;
-  margin: 0 auto;
-  width: 50%;
-}
-
 .player-controls-progress {
   padding-top: 10px;
   padding-bottom: 20px;
@@ -46,4 +37,35 @@
 .player-controls-progress-end {
   padding-left: 30px;
   padding-right: 50px;
+}
+
+.player-controls-navigation {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.player-controls-title {
+  flex: 1;
+}
+
+.player-controls-icons {
+  flex: 4;
+  display: flex;
+  width: 100%;
+  justify-content: space-evenly;
+}
+
+.player-controls-icons * {
+  padding: 0px 5px;
+}
+
+.player-controls-volume {
+  flex: 1;
+  margin-right: 20px;
+  justify-self: flex-end;
+  align-self: center;
+  margin-left: auto;
 }
