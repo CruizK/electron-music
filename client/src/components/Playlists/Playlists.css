@@ -1,0 +1,29 @@
+.playlist-list {
+  list-style-type: none;
+  padding: 0;
+  width: 100%;
+}
+
+.playlist-list-item {
+  display: flex;
+  width: 90%;
+  margin: 0px auto;
+  flex-direction: row;
+  border-top: 1px solid #222;
+  padding: 20px;
+}
+
+.playlist-list-item:hover {
+  background-color: #212121;
+  cursor: pointer;
+}
+
+.playlist-list-right {
+  flex: 3;
+  display: flex;
+}
+
+
+.playlist-list-data {
+  flex: 1;
+}
