@@ -1,7 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Sound from 'react-sound'
 const electron = window.require('electron');
-
 
 
 const YTListItem = ({item, progress}) => {
@@ -13,13 +12,16 @@ const YTListItem = ({item, progress}) => {
     return str.substring(0, i) + "   ...";
   }
 
-
+  useEffect(() => {
+    setDownloading(false);
+  }, [item])
+  
 
   const handleDownload = () => {
     electron.ipcRenderer.send('downloadVideo', item);
     setDownloading(true);
   }
-  
+
   return (
     <React.Fragment>
       <img src={item.snippet.thumbnails.high.url} />
@@ -28,7 +30,7 @@ const YTListItem = ({item, progress}) => {
         <span className="video-channel yt-span">{item.snippet.channelTitle}</span>
         <span className="video-description yt-span">{truncator(item.snippet.description, 80)}</span>
         {!downloading ? <button className="video-btn" onClick={() => handleDownload()}>Download</button> :
-          <span>{progress[item.id.videoId] || '0%'}</span>
+          <span>{`Downloading: ${progress[item.id.videoId] || '0%'}`}</span>
         }
       </div>
     </React.Fragment>
