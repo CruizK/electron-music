@@ -2,13 +2,14 @@
 
 .seeker {
   position: relative;
+  height: 20px;
   cursor: pointer;
 }
 
 .seeker-background {
   position: absolute;
   border-radius: 10px;
-  top: -5px;
+  top: 5px;
   height: 10px;
   background-color: #666;
   width: 100%;
@@ -19,7 +20,7 @@
   position: absolute;
   overflow: hidden;
   border-radius: 10px;
-  top: -5px;
+  top: 5px;
   height: 10px;
   background-color: #ccc;
   width: 100%;
