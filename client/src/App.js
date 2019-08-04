@@ -3,7 +3,7 @@ import logo from './logo.svg';
 import { BrowserRouter as Router, Route} from 'react-router-dom'
 import YTVideoList from './components/YTVideoList/YTVideoList'
 import Navigation from './components/Navigation/Navigation'
-import SongList from './components/SongList/SongList'
+import Playlists from './components/Playlists/Playlists'
 import MusicPlayer from './components/MusicPlayer/MusicPlayer'
 import Player from './components/Player/Player'
 import PlayerProvider from './providers/PlayerProvider'
@@ -17,7 +17,7 @@ function App() {
       <Provider providers={[PlayerProvider]}>
         <Navigation />
         <div className="container">
-          <Route exact path="/" component={SongList}/>
+          <Route exact path="/" component={Playlists}/>
           <Route path="/search" component={YTVideoList} />
           <Route exact path="/player" component={MusicPlayer} />
         </div>

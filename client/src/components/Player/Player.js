@@ -5,10 +5,13 @@ import {PlayerContext} from '../../providers/PlayerProvider'
 import './Player.css'
 
 const Player = () => {
-  const playerContext = useContext(PlayerContext);
+  const { incrementPlaylist, isPlaying, playlist, currentSong, isLooping} = useContext(PlayerContext);
   const [progress, setProgress] = useState(0);
-  const handleSongLoading = () => {
+  const [volume, setVolume] = useState(100);
 
+  const handleLoad = () => {
+    console.log("Loaded");
+    setProgress(0);
   }
 
   const handleSongPlaying = data => {
@@ -16,7 +19,11 @@ const Player = () => {
   } 
 
   const handleSongFinish = () => {
-
+    if(isLooping) {
+      return setProgress(0);
+    }
+    return incrementPlaylist();
+    
   }
 
   const displayPlayer = () => {
@@ -24,7 +31,10 @@ const Player = () => {
       <div className="player">
         <PlayerControls 
           progress={progress}
+          volume={volume}
           setProgress={setProgress}
+          setVolume={setVolume}
+          song={currentSong()}
         />
       </div>
     )
@@ -32,14 +42,15 @@ const Player = () => {
 
   return <div>
       <Sound
-        url={playerContext.song ? playerContext.song.path : ''}
-        playStatus={playerContext.isPlaying ? Sound.status.PLAYING : Sound.status.PAUSED}
+        url={playlist ? currentSong().path : ''}
+        onLoad={handleLoad}
+        playStatus={isPlaying ? Sound.status.PLAYING : Sound.status.PAUSED}
         position={progress * 1000}
-        onLoading={handleSongLoading}
+        volume={volume}
         onPlaying={handleSongPlaying}
         onFinishedPlaying={handleSongFinish}
       />
-      {playerContext.song ? displayPlayer() : null}
+      {playlist ? displayPlayer() : null}
   </div>
 }
 

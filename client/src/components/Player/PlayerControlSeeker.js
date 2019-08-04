@@ -1,48 +1,54 @@
 import React, {useState, useEffect, useRef, useContext} from 'react'
 import {PlayerContext} from '../../providers/PlayerProvider'
 import {formatSongDuration} from '../../utils/timeUtils'
+import Tooltip from '../Tooltip/Tooltip'
 import "./Seeker.css"
 
 let song;
-const PlayerControlSeeker = ({total, className, setProgress}) => {
-  const playerContext = useContext(PlayerContext);
+let width;
+let offsetLeft;
+const PlayerControlSeeker = ({className, progress, setProgress}) => {
+  const { isPlaying, currentSong, playlistIndex } = useContext(PlayerContext);
   const [seekProgress, setSeek] = useState(0);
   const [isHovered, setHovered] = useState(false);
   const [offset, setOffset] = useState(0);
   const [animation, setAnimation] = useState(`seeker`)
   const [delay, setDelay] = useState(0);
   const ref = useRef();
-  let width;
-  let offsetLeft;
+
 
 
   const resetAnimation = () => {
+    console.log("RESTTING ANIMATION", isPlaying);
     if(animation == 'seeker') setAnimation('seeker2');
     else setAnimation('seeker');
+    setDelay(0);
   }
   
   useEffect(() => {
+    if(progress == 0) resetAnimation(); //For looping to reset the bar
+
     if(ref.current) {
       width = ref.current.offsetWidth;
       offsetLeft = ref.current.offsetLeft;
     }
-    
   })
 
   useEffect(() => {
-    console.log("UPDATES SONG", song);
+    console.log("UPDATES SONG", song, currentSong());
     if(!song)
-      song = playerContext.song;
-    if(song != playerContext.song) {
-      console.log('setting animation state');
+      song = currentSong();
+    else if(song.path != currentSong().path) {
+      setProgress(0);
       resetAnimation();
+      song = currentSong();
     }
-  }, [playerContext.song])
+  }, [playlistIndex])
 
   const handleMouseMove = e => {
     if(!width) return;
     let offsetX = e.nativeEvent.offsetX;
-    setSeek(total * (offsetX/width));
+    setSeek(song.duration * (offsetX/width));
     setOffset(e.clientX - offsetLeft);
   }
 
@@ -63,14 +69,11 @@ const PlayerControlSeeker = ({total, className, setProgress}) => {
   
   
   return (
-    <span className={`seeker ${className}`} onMouseEnter={handleMouseEnter} onClick={handleClick} onMouseLeave={handleMouseLeave} onMouseMove={handleMouseMove} ref={ref}>
-      {isHovered ? <span className="seeker-tooltip" 
-        style={{display: 'block', position: 'absolute', left: `${offset-11}px`}}>
-        {formatSongDuration(seekProgress)}
-      </span> : null}
+    <span className={`seeker ${className}`} onMouseOver={handleMouseEnter} onClick={handleClick} onMouseOut={handleMouseLeave} onMouseMove={handleMouseMove} ref={ref}>
+      <Tooltip isVisible={isHovered} left={offset-12} top={-25}>{formatSongDuration(seekProgress)}</Tooltip>
       
       <span className="seeker-background"></span>
-      <span className="seeker-foreground" style={{animation: `${animation} ${total}s linear ${delay}s`, animationPlayState: playerContext.isPlaying ? 'running' : 'paused'}}></span>
+      <span className="seeker-foreground" style={{animation: `${animation} ${currentSong().duration}s linear ${delay}s ${isPlaying ? 'running' : 'paused'}`}}></span>
     </span>
   )
 }
