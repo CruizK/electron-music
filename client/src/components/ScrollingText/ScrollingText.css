@@ -1,5 +1,5 @@
 .scrolling-text-container {
-  width: 100px;
+  width: 150px;
   overflow:hidden;
 }
 
@@ -13,7 +13,7 @@
 
 @keyframes scrollingText {
   from {
-    transform: translateX(100px)
+    transform: translateX(150px)
   }
   to {
     transform: translateX(-100%)
