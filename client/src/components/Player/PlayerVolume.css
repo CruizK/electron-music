@@ -1,0 +1,24 @@
+.player-volume {
+  position: relative;
+  cursor: pointer;
+}
+
+.player-volume-background {
+  position: absolute;
+  border-radius: 10px;
+  top: -5px;
+  height: 10px;
+  background-color: #666;
+  width: 100%;
+}
+
+.player-volume-foreground {
+  pointer-events: none;
+  position: absolute;
+  overflow: hidden;
+  border-radius: 10px;
+  top: -5px;
+  height: 10px;
+  background-color: #ccc;
+  width: 100%;
+}
