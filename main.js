@@ -12,7 +12,14 @@ const util = require('./fileUtil')
 let win;
 
 mkdirp.sync(path.join(__dirname, "/music"));
-let musicMap = util.checkFileSync('./music/music-map.json', {});
+
+let playlistMap = util.checkFileSync('./music/playlist-map.json', {
+  "All Songs": {
+    name: "All Songs",
+    subtext: "All Your Songs",
+    songs: []
+  }
+});
 
 function createWindow() {
   win = new BrowserWindow({
@@ -38,6 +45,10 @@ function createWindow() {
   win.on('closed', () => {
     fs.writeFile('./music/music-map.json', JSON.stringify(musicMap, null, "\t"), (err) => {
     });
+
+    fs.writeFile('./music/playlist-map.json', JSON.stringify(playlistMap, null, "\t"), (err) => {
+
+    })
     // Dereference the window object, usually you would store windows
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
@@ -50,14 +61,33 @@ ipcMain.on('getVideos', async (event, args) => {
   event.reply('gotVideos', videos);
 })
 
-ipcMain.on('getMusicMap', (event, args) => {
-  event.returnValue = musicMap;
+ipcMain.on('getPlaylistMap', (event, args) => {
+  event.returnValue = playlistMap;
+})
+
+ipcMain.on('createPlaylist', (event, args) => {
+  let playlist = {
+    name: args.name,
+    subtext: args.subtext,
+    songs: []
+  }
+  
+  playlistMap[args.name] = playlist;
+})
+
+ipcMain.on('addToPlaylist', (event, args) => {
+  let playlist = playlistMap[args.playlist];
+  if(playlist) {
+    playlist.songs.push(args.song);
+  }
 })
 
 ipcMain.on('downloadVideo', async (event, args) => {
 
   let vidId = args.id.videoId;
-  if(musicMap[vidId]) {
+
+  //If the 'All Songs' Playlist exists and the song exists in the playlist, then don't download it
+  if(playlistMap['All Songs'] && playlistMap['All Songs'].songs.findIndex(x => x.videoId == vidId) != -1) {
     win.webContents.send('updateDownloadProgress', {
       progress: "Already Downloaded",
       videoId: vidId
@@ -66,8 +96,13 @@ ipcMain.on('downloadVideo', async (event, args) => {
   }
 
   const duration = await ytUtil.videoDuration(vidId)
+  let playlist = args.playlist || 'All Songs'
 
-  musicMap[vidId] = {
+  if(!playlistMap[playlist]) {
+    return;
+  }
+
+  playlistMap[playlist].songs.push({
     title: args.snippet.title,
     description: args.snippet.description,
     thumbnails: args.snippet.thumbnails,
@@ -75,7 +110,8 @@ ipcMain.on('downloadVideo', async (event, args) => {
     duration: duration,
     path: 'file://'+path.join(__dirname, "/music/" + vidId + ".mp3"),
     videoId: vidId,
-  }
+  });
+  console.log(playlistMap);
 
 
   extractAudio(vidId, `./music/${vidId}.mp3`, progress => {
