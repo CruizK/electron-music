@@ -43,9 +43,6 @@ function createWindow() {
 
   // Emitted when the window is closed.
   win.on('closed', () => {
-    fs.writeFile('./music/music-map.json', JSON.stringify(musicMap, null, "\t"), (err) => {
-    });
-
     fs.writeFile('./music/playlist-map.json', JSON.stringify(playlistMap, null, "\t"), (err) => {
 
     })
