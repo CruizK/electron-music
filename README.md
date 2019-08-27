@@ -1,2 +1,2 @@
-# electron-music
-An electron music for downloading and listening to music
+# Electron Music
+An electron app for downloading and listening to music
