@@ -13,10 +13,10 @@ const Playlist = () => {
   const [showSongs, setShowSongs] = useState('');
 
   useEffect(() => {
-    console.log('setting playlist to ');
+    //console.log('setting playlist to ');
     
     setPlaylists(electron.ipcRenderer.sendSync('getPlaylistMap'));
-  })
+  }, [])
 
   const displayPlaylists = () => {
     if (!playlists) return <ul></ul>;
